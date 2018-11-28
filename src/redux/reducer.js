@@ -1,9 +1,5 @@
 const initialState = {
-  currentUser: {},
-  myProjects: [],
-  myProjectTasks: [],
-  currentCollaborators: [],
-  myToDoTasks: []
+  currentUser: {}
 }
 
 
