@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { withRouter } from "react-router";
+import { connect } from 'react-redux'
+import { getCurrentUser } from '../redux/actions.js'
 
 class Login extends Component {
 
@@ -34,9 +36,9 @@ class Login extends Component {
     .then(res => res.json())
     .then(user => {
       if (user.error) {
-        this.setState({ error:true })
+        this.setState({ errors:true })
       } else {
-        this.props.handleUser(user.user)
+        this.props.currentUser(user.user) // dispatch this function
         localStorage.setItem("tokemon", JSON.stringify(user.jwt));
         this.props.history.push('/dashboard')
       }
@@ -109,4 +111,8 @@ class Login extends Component {
   }
 }
 
-export default withRouter(Login)
+const mapDispatchToProps = (dispatch) => {
+  return { currentUser: (user) => dispatch(getCurrentUser(user)) }
+}
+
+export default connect(null, mapDispatchToProps)(withRouter(Login))

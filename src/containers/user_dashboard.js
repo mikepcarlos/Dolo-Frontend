@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import UserInfo from '../components/user_info.js'
 
 class DashBoard extends Component {
   render() {
     return (
       <div className="dashboard">
-        <h2>In DashBoard</h2>
+        <a className="logout button" href="/login" onClick={this.props.logout}>Log Out</a>
+        <UserInfo />
       </div>
     );
   }

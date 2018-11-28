@@ -9,38 +9,24 @@ import { withRouter } from "react-router";
 
 class App extends Component {
 
-  constructor(props){
-    super(props)
-
-    this.state = {
-      currentUser: {}
-    }
-  }
-
-  handleUser = (user) => {
-    let safeUser = {...user}
-    this.setState({
-      currentUser: safeUser
-    })
-  }
-
-  handleNewUser = (userData) => {
-    console.log(userData)
+  logout = () => {
+    localStorage.removeItem("tokemon")
   }
 
   renderDashBoardOrNah = () => {
-    if (localStorage.length !== 1 && this.props.location.pathname === "/dashboard"){
+    if (localStorage.tokemon === undefined && this.props.location.pathname === "/dashboard"){
       return (<Redirect to="/login"/>)
     } else {
-      return (<Route exact path="/dashboard" component={DashBoard} />)
+      return (<Route exact path="/dashboard" component={() => <DashBoard logout={this.logout}/>} />)
     }
   }
+
 
   render() {
     return (
       <div className="App">
-        <Route exact path="/login" component={() => <Login handleUser={this.handleUser}/>} />
-        <Route exact path="/signup" component={() => <Signup handleNewUser={this.handleNewUser}/>} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
         {this.renderDashBoardOrNah()}
       </div>
     );
