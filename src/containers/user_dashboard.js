@@ -5,6 +5,7 @@ class DashBoard extends Component {
   render() {
     return (
       <div className="dashboard">
+        {console.log("In dashboard STEP 3")}
         <a className="logout button" href="/login" onClick={this.props.logout}>Log Out</a>
         <UserInfo />
       </div>

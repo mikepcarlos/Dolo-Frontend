@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { withRouter } from "react-router";
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 // import { getCurrentUser } from '../redux/actions.js'
 
 class Login extends Component {
@@ -38,9 +38,10 @@ class Login extends Component {
       if (user.error) {
         this.setState({ errors:true })
       } else {
-        localStorage.setItem("tokemon", JSON.stringify(user.jwt));
+        localStorage.setItem("tokemon", user.jwt);
+        this.props.setUser(user)
         // this.props.getUser(user.user.id)
-        // this.props.history.push('/dashboard')
+        this.props.history.push('/dashboard')
       }
     })
   }
@@ -63,6 +64,7 @@ class Login extends Component {
   render() {
     return (
       <div>
+        {console.log("IN LOGIN, (STEP 2)")}
         <title>Login V2</title>
         <meta charSet="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -111,8 +113,5 @@ class Login extends Component {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return { currentUser: (user) => dispatch(getCurrentUser(user)) }
-// }
 
 export default withRouter(Login)
