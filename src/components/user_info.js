@@ -1,16 +1,23 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import MyProjects from './my_projects.js'
 
 const UserInfo = (props) => {
 
   return(
-    <div className="user-info">
-      {console.log("In user Info STEP 4")}
-      <h2>{props.currentUser.displayname}</h2>
-      <h5>{props.currentUser.email}</h5>
-      <h5>{props.currentUser.username}</h5>
-      {console.log("in user info", props.currentUser)}
+    <div className="user-info-container">
+      <div className="image-pos">
+        <img src="/timdog.jpg" alt=""/>
+      </div>
+      <div className="user-content">
+        <p id="displayname">{props.currentUser.displayname}</p>
+        <br></br>
+        <label id="user-bio-label">Bio:</label>
+        <br></br>
+        <p id="user-bio">{props.currentUser.bio}</p>
+      </div>
+      <div className="edit-user">
+        <i className="fas fa-user-edit"></i>
+      </div>
     </div>
   )
 }

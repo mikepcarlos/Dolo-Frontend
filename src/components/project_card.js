@@ -2,9 +2,9 @@ import React from 'react'
 
 const ProjectCard = (props) => {
   return(
-    <div>
-      <h2>{props.project.name}</h2>
-      <h4>{props.project.category}</h4>
+    <div className="project-stuff">
+      <p>{props.project.name}</p>
+      <p>{props.project.category}</p>
       <p>{props.project.description}</p>
     </div>
   )

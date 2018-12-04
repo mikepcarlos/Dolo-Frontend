@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { withRouter } from "react-router";
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 // import { getCurrentUser } from '../redux/actions.js'
 
 class Login extends Component {
@@ -64,7 +64,6 @@ class Login extends Component {
   render() {
     return (
       <div>
-        {console.log("IN LOGIN, (STEP 2)")}
         <title>Login V2</title>
         <meta charSet="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>

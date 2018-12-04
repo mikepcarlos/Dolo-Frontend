@@ -1,36 +1,86 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
+import { getProjects } from '../redux/actions.js'
+import { setProject } from '../redux/actions.js'
+import Tasks from './create_tasks.js'
 
 
-export default class CreateProject extends Component {
+class CreateProject extends Component {
 
   constructor(){
     super()
 
     this.state = {
-      taskMarkup: []
+      fields: {
+        name: "",
+        category: "",
+        description: ""
+      }
     }
   }
 
-  renderTasks = () => {
-    const markup = (
-      <div>
-        <label>Title</label>
-        <input type="text" placeholder="Title"/>
-        <label>Description</label>
-        <input type="text" placeholder="Description"/>
-      </div>
-    )
+  componentDidMount(){
+    const URL = "http://localhost:3000/projects"
+    fetch(URL)
+      .then(res => res.json())
+      .then(projects => this.props.getProjects(projects))
+  }
+
+  handleNormalFieldChange = (e) => {
+    const newFields = {
+      ...this.state.fields,
+        [e.target.name]: e.target.value
+    }
+
     this.setState({
-      taskMarkup: [...this.state.taskMarkup, markup]
+      fields: newFields
     })
   }
 
-  renderTask = () => {
-    if (this.state.taskMarkup.length !== 0){
-      return this.state.taskMarkup.map(taskMarkup => {
-        // debugger
-        return taskMarkup;
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.postingProject(this.state.fields.name, this.state.fields.category, this.state.fields.description)
+  }
+
+  postingProject = (name, category, desc) => {
+    const URL = "http://localhost:3000/projects"
+    fetch(URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        project: {
+          name: name,
+          category: category,
+          img: "",
+          description: desc,
+        }
       })
+    })
+    .then(res => res.json())
+    .then(project => this.props.setProject(project))
+  }
+
+  renderTasksOrNah = () => {
+    if (this.props.newProj.id){
+      return (
+        <Tasks />
+      )
+    } else {
+      return (
+        <form onSubmit={this.handleSubmit}>
+          <label>Name</label>
+          <input onChange={this.handleNormalFieldChange} type="text" placeholder="Name" name="name" value={this.state.fields.name}/>
+          <label>Category</label>
+          <input onChange={this.handleNormalFieldChange} type="text" placeholder="Category" name="category" value={this.state.fields.category}/>
+          <label>Description</label>
+          <input onChange={this.handleNormalFieldChange} type="text" placeholder="Description" name="description" value={this.state.fields.description}/>
+          <br></br>
+          <button type="Submit">Submit</button>
+        </form>
+      )
     }
   }
 
@@ -38,19 +88,24 @@ export default class CreateProject extends Component {
     return(
       <div className="project-form">
       <h2>Create a Project</h2>
-        <form>
-          <label>Name</label>
-          <input type="text" placeholder="Name"/>
-          <label>Category</label>
-          <input type="text" placeholder="Category"/>
-          <label>Description</label>
-          <input type="text" placeholder="Description"/>
-          <button type="button" onClick={this.renderTasks}>Add a Task</button>
-          {this.renderTask()}
-          <br></br>
-          <button type="Submit">Submit</button>
-        </form>
+        {this.renderTasksOrNah()}
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    projects: state.projects,
+    newProj: state.newProj
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProjects: (projects) => dispatch(getProjects(projects)),
+    setProject: (project) => dispatch(setProject(project))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProject)

@@ -4,11 +4,12 @@ import Signup from './components/signup.js'
 import DashBoard from './containers/user_dashboard.js'
 import './App.css';
 import { Switch } from 'react-router-dom'
-import { Redirect } from 'react-router'
+// import { Redirect } from 'react-router'
 // import { withRouter } from "react-router";
 import { connect } from 'react-redux'
 import { getCurrentUser } from './redux/actions.js'
 import { BrowserRouter as Router, Route} from 'react-router-dom'
+import CreateProject from './components/create_project.js'
 
 class App extends Component {
 
@@ -41,12 +42,12 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          {console.log("In APP STEP 1")}
           <div className="routes">
             <Switch>
               <Route exact path="/login" render={(routeProps) => <Login setUser={this.props.currentUser} {...routeProps}/>}/>
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/dashboard" component={() => <DashBoard logout={this.logout}/>} />
+              <Route exact path="/create_project" component={CreateProject} />
             </Switch>
           </div>
         </div>

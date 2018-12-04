@@ -484,3 +484,212 @@ iframe {
     opacity: 1;
   }
 }
+
+/* APP STYLING */
+
+.App {
+  height: 100vh;
+  width: 100vw;
+  background: #f2f2f2;
+  position: absolute;
+}
+
+.dashboard {
+  border: 5px groove #e3e0cf;
+  /* display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox; */
+  display: flex;
+  border-radius: 3px;
+  position: relative;
+  margin-top: 0.5%;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  min-height: 98vh;
+  background: #fff;
+  /* main dashboard border (come back to make look less idk tacky i guess) */
+}
+
+.user-score-board {
+  position: absolute;
+  /* line-height: 45px; */
+  margin-top: 2.5%;
+  margin-left: 86%;
+  border: 1.3px outset black;
+  width: 12%;
+  height: 15vh;
+}
+
+.user-score-board p {
+  margin-left: 5%;
+}
+
+#user-score-board-stats {
+  position: relative;
+  flex-wrap: wrap;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.user-info-container{
+  position: absolute;
+  margin-top: 16%;
+  margin-left: 3%;
+  line-height: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  /* flex-wrap: wrap; */
+  /* text-align: right; */
+  /* align-items: flex-start; */
+
+  /* box-shadow: 0 5px 10px 100px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 10px 100px rgba(255, 244, 244, 0.1);
+  -webkit-box-shadow: 0 30px 50px 20px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1); */
+}
+
+.user-tasks {
+  position: absolute;
+  border: 1.3px outset black;
+  margin-top: 2.5%;
+  margin-left: 2.9%;
+  height: 15vh;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+
+.task-label {
+  /* margin-left: 48%; */
+  text-decoration: underline;
+}
+
+.task-collector {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  /* align-items: flex-start;
+  justify-content: space-around; */
+  margin-top: 1.8%;
+  /* display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px; */
+}
+
+.user-tasks-info {
+  /* align-items: flex-start;
+  justify-content: space-around; */
+  /* position: relative; */
+  /* position: absolute; */
+  /* display: grid; */
+  /* margin-top: 10%; */
+  /* grid-template-rows: repeat(3, 1fr); */
+  /* grid-gap: 20px; */
+  /* display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px; */
+}
+
+.user-task-content {
+  margin: 0 4rem;
+}
+
+.my-projects-container {
+  position: absolute;
+  border: 1.3px outset black;
+  margin-top: 16%;
+  width: 30%;
+  margin-left: 68%;
+  height: 50vh;
+  margin-right: 10%;
+  display: inline;
+  overflow: scroll;
+}
+
+.my-projects {
+
+}
+
+.create-project-icon {
+  margin-left: 45%;
+  position: absolute;
+  font-size: 22px;
+}
+
+.project-title {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1.5px solid black;
+}
+
+.project-title p {
+  font-size: 20px;
+}
+
+.project-cards {
+  border-bottom: 0.5px solid black;
+  margin: 5% 2rem;
+}
+
+.project-stuff {
+
+}
+
+
+.user-info-container #displayname {
+  position: relative;
+  font-size: 30px;
+  font-family: Poppins-Bold;
+}
+
+.user-info-container #user-bio {
+  position: relative;
+  font-size: 14px;
+  font-family: Poppins-Medium;
+}
+
+.user-info-container #user-bio-label {
+  position: relative;
+  font-size: 14px;
+  font-family: Poppins-SemiBold;
+}
+
+.user-info-container img {
+  position: relative;
+  border-radius: 3px;
+  /* align-items: flex-start; */
+  border: 1px outset #173e43;
+  padding: 0.5%;
+  background: #e3e0cf;
+  width:  180px;
+  height: 166px;
+  -webkit-box-shadow: 0 20px 40px 5px #f2efe8;
+}
+
+/* .edit-user {
+  height: 23.5%;
+  background: #e6e6e8;
+  border-radius: 5px;
+
+  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+} */
+
+.edit-user i {
+  font-size: 30px;
+  position: relative;
+  top: 75%;
+}

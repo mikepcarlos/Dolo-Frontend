@@ -12,6 +12,7 @@ class Signup extends Component {
       fields: {
         email: "",
         username: "",
+        displayname: "",
         pass: "",
         passCon: ""
       }
@@ -28,7 +29,7 @@ class Signup extends Component {
     })
   }
 
-  signup = (email, username, password, pCon) => {
+  signup = (email, username, displayname, password, pCon) => {
     const URL = 'http://localhost:3000/users'
     if (password === pCon){
       fetch(URL, {
@@ -42,7 +43,7 @@ class Signup extends Component {
             username: username,
             password: password,
             email: email,
-            displayname: "",
+            displayname: displayname,
             img: "",
             bio: "",
             score: null
@@ -52,13 +53,13 @@ class Signup extends Component {
       .then(res => res.json())
       .then(this.props.history.push('/login'))
     } else {
-      alert("not same password bro")
+      alert("not same password bro") // render something less anooying than alert
     }
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.signup(this.state.fields.email, this.state.fields.username, this.state.fields.pass, this.state.fields.passCon)
+    this.signup(this.state.fields.email, this.state.fields.username, this.state.fields.displayname, this.state.fields.pass, this.state.fields.passCon)
   }
 
   render() {
@@ -85,6 +86,10 @@ class Signup extends Component {
       						<input onChange={this.handleChange} className="input100" type="text" name="username" value={this.state.fields.username}/>
       						<span className="focus-input100" data-placeholder="Username"></span>
       					</div>
+                <div className="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+                  <input onChange={this.handleChange} className="input100" type="text" name="displayname" value={this.state.fields.displayname}/>
+                  <span className="focus-input100" data-placeholder="Display Name"></span>
+                </div>
       					<div className="wrap-input100 validate-input" data-validate="Enter password">
       						<span className="btn-show-pass">
       							<i className="zmdi zmdi-eye"></i>
