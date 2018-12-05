@@ -21,7 +21,12 @@ class CreateProject extends Component {
 
   componentDidMount(){
     const URL = "http://localhost:3000/projects"
-    fetch(URL)
+    fetch(URL, {
+      method: 'GET',
+      headers: {
+        "Authorization": localStorage.tokemon
+      }
+    })
       .then(res => res.json())
       .then(projects => this.props.getProjects(projects))
   }
@@ -39,23 +44,24 @@ class CreateProject extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.postingProject(this.state.fields.name, this.state.fields.category, this.state.fields.description)
+    this.postingProject(this.state.fields.name, this.state.fields.category, this.state.fields.description, this.props.currentUser.user.id)
   }
 
-  postingProject = (name, category, desc) => {
+  postingProject = (name, category, desc, userId) => {
+    // debugger
     const URL = "http://localhost:3000/projects"
     fetch(URL, {
       method: 'POST',
       headers: {
         'Content-Type':'application/json',
-        Accept: 'application/json'
+        "Authorization": localStorage.tokemon
       },
       body: JSON.stringify({
         project: {
           name: name,
           category: category,
           img: "",
-          description: desc,
+          description: desc
         }
       })
     })
@@ -96,6 +102,7 @@ class CreateProject extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.currentUser,
     projects: state.projects,
     newProj: state.newProj
   }

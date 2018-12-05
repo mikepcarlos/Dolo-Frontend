@@ -18,7 +18,12 @@ class Tasks extends Component{
 
   componentDidMount(){
     const URL = "http://localhost:3000/users"
-    fetch(URL)
+    fetch(URL, {
+      method: 'GET',
+      headers: {
+        "Authorization": localStorage.tokemon
+      }
+      })
       .then(res => res.json())
       .then(users => this.props.allUsers(users))
   }
@@ -79,6 +84,7 @@ class Tasks extends Component{
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.currentUser,
     users: state.allUsers
   }
 }
