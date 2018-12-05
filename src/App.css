@@ -693,3 +693,25 @@ iframe {
   position: relative;
   top: 75%;
 }
+
+/* create project page  */
+
+.create-project-page {
+  /* border: 1px groove black; */
+  /* display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox; */
+  border-radius: 3px;
+  position: relative;
+  margin-top: 0.05%;
+  margin-left: 0.05%;
+  margin-right: 0.05%;
+  min-height: 99.8vh;
+  background: #512DA8;
+  color: white;
+}
+
+.project-form {
+  
+}

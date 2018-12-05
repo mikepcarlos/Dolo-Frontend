@@ -92,9 +92,11 @@ class CreateProject extends Component {
 
   render(){
     return(
-      <div className="project-form">
-      <h2>Create a Project</h2>
-        {this.renderTasksOrNah()}
+      <div className="create-project-page">
+        <div className="project-form">
+          <h2>Create a Project</h2>
+            {this.renderTasksOrNah()}
+        </div>
       </div>
     )
   }

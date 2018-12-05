@@ -8,6 +8,9 @@ export const getProjects = (projects) => ({ type: "GET_PROJECTS", payload: proje
 
 export const setProject = (project) => ({ type: "SET_PROJECT", payload: project.data })
 
+export const getCurrentTasks = (tasks) => ({ type: "CURRENT_TASKS", payload: tasks.data })
+
+
 
 // export const getCurrentUser = (currentUser) => {
 //   return (disptach) => {

@@ -5,7 +5,8 @@ const initialState = {
   },
   allUsers: [],
   projects: [],
-  newProj: {}
+  newProj: {},
+  currentTasks: []
 }
 
 
@@ -22,6 +23,9 @@ const reducer = (state = initialState, action) => {
     }
     case('SET_PROJECT'): {
       return {...state, newProj: action.payload}
+    }
+    case('CURRENT_TASKS'): {
+      return {...state, currentTasks: [...state.currentTasks, action.payload]}
     }
     default:
       return state

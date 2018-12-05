@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import { getAllUsers } from '../redux/actions.js'
+import { getCurrentTasks } from '../redux/actions.js'
+import { Redirect } from 'react-router'
 
 class Tasks extends Component{
 
@@ -8,10 +10,13 @@ class Tasks extends Component{
     super()
 
     this.state = {
-      taskMarkup: [],
+      clicked: false,
       taskFields: {
-        taskTitle: "",
-        taskDescription: ""
+        title: "",
+        description: ""
+      },
+      userTask: {
+        username: ""
       }
     }
   }
@@ -28,34 +33,32 @@ class Tasks extends Component{
       .then(users => this.props.allUsers(users))
   }
 
-  handleTaskFieldChange = () => {
-    console.log("hit");
-  }
+  handleTaskFieldChange = (e) => {
+    const newTaskField = {
+      ...this.state.taskFields,
+        [e.target.name]: e.target.value
+    }
 
-  renderTasks = () => {
-    const markup = (
-      <div>
-        <label>Title</label>
-        <input onChange={this.handleTaskFieldChange} type="text" placeholder="Title" name="taskTitle" value={this.state.taskFields.taskTitle}/>
-        <label>Description</label>
-        <input onChange={this.handleTaskFieldChange} type="text" placeholder="Description" name="taskDescription" value={this.state.taskFields.taskDescription}/>
-        <select> give someone a task!
-          <option value=""></option>
-          {this.renderOptionTag()}
-        </select>
-      </div>
-    )
     this.setState({
-      taskMarkup: [...this.state.taskMarkup, markup]
+      taskFields: newTaskField
     })
   }
 
-  renderTask = () => {
-    if (this.state.taskMarkup.length !== 0){
-      return this.state.taskMarkup.map(taskMarkup => {
-        return taskMarkup;
-      })
+  handleUserChange = (e) => {
+    const newFields = {
+      ...this.state.userTask,
+        [e.target.name]: e.target.value
     }
+
+    this.setState({
+      userTask: newFields
+    })
+  }
+
+  renderTasksOrNah = () => {
+    this.setState({
+      clicked: !this.state.clicked
+    })
   }
 
   renderOptionTag = () => {
@@ -72,10 +75,100 @@ class Tasks extends Component{
     }
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault()
+    // this.getUserTaskId(this.state.userTask.username)
+    this.postTask(this.state.taskFields.title, this.state.taskFields.description, this.getUserTaskId(this.state.userTask.username), this.props.currentProj.id)
+    this.setState({
+      clicked: !this.state.clicked
+    })
+  }
+
+  getUserTaskId = (username) => {
+    if(username !== ""){
+      for (var i = 0; i < this.props.users.length; i++){
+        let user = this.props.users[i]
+        if (user.attributes.username === username){
+          return user.id
+        }
+      }
+    }
+  }
+
+  postTask = (title, desc, userId, projId) => {
+    const id = parseInt(userId)
+    const URL = 'http://localhost:3000/tasks'
+    fetch(URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json',
+        "Authorization": localStorage.tokemon
+      },
+      body: JSON.stringify({
+        task: {
+          title: title,
+          description: desc,
+          project_id: projId,
+          user_id: id
+        }
+      })
+    })
+    .then(res => res.json())
+    .then(task => this.props.getTasks(task))
+  }
+
+  displayNewProjInfo = () => {
+    if (this.props.currentProj.id){
+      return (
+        <div>
+          <p>{this.props.currentProj.attributes.name}</p>
+          <p>{this.props.currentProj.attributes.category}</p>
+          <p>{this.props.currentProj.attributes.description}</p>
+        </div>
+      )
+    }
+  }
+
+  displayNewTask = () => {
+    let arr= [];
+    for (var i = 0; i < this.props.newTasks.length; i++){
+      let task = this.props.newTasks[i]
+        arr.push(
+          <div>
+          <p>{task.attributes.title}</p>
+          <p>{task.attributes.description}</p>
+        </div>)
+
+
+
+    }
+    return arr
+  }
+
   render(){
     return(
       <div>
-        <button type="button" onClick={this.renderTasks}>Add a Task</button>
+        <div>
+          {this.displayNewProjInfo()}
+        </div>
+        <div>
+          {this.displayNewTask()}
+        </div>
+          {this.state.clicked ?
+            <div>
+              <form onSubmit={this.handleSubmit}>
+                <label>Title</label>
+                <input onChange={this.handleTaskFieldChange} type="text" placeholder="Title" name="title" value={this.state.taskFields.title}/>
+                <label>Description</label>
+                <input onChange={this.handleTaskFieldChange} type="text" placeholder="Description" name="description" value={this.state.taskFields.description}/>
+                <select onChange={this.handleUserChange} value={this.state.userTask.username} name="username"> give someone a task!
+                  <option></option>
+                  {this.renderOptionTag()}
+                </select>
+                <button type="Submit">Submit</button>
+              </form>
+            </div> : <button type="button" onClick={this.renderTasksOrNah}>Add a Task</button>
+          }
       </div>
     )
   }
@@ -85,12 +178,17 @@ class Tasks extends Component{
 const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser,
-    users: state.allUsers
+    users: state.allUsers,
+    projects: state.projects,
+    currentProj: state.newProj,
+    newTasks: state.currentTasks
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {allUsers: (users) => dispatch(getAllUsers(users))}
+  return {
+    allUsers: (users) => dispatch(getAllUsers(users)),
+    getTasks: (tasks) => dispatch(getCurrentTasks(tasks))}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasks)
