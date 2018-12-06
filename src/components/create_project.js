@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import { getProjects } from '../redux/actions.js'
 import { setProject } from '../redux/actions.js'
 import Tasks from './create_tasks.js'
+import { withRouter } from "react-router";
 
 
 class CreateProject extends Component {
@@ -45,6 +46,13 @@ class CreateProject extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.postingProject(this.state.fields.name, this.state.fields.category, this.state.fields.description, this.props.currentUser.user.id)
+    this.setState({
+      fields: {
+        name: "",
+        category: "",
+        description: ""
+      }
+    })
   }
 
   postingProject = (name, category, desc, userId) => {
@@ -69,6 +77,10 @@ class CreateProject extends Component {
     .then(project => this.props.setProject(project))
   }
 
+  returnToDashBoard = () => {
+    this.props.history.push("/dashboard")
+  }
+
   renderTasksOrNah = () => {
     if (this.props.newProj.id){
       return (
@@ -76,16 +88,23 @@ class CreateProject extends Component {
       )
     } else {
       return (
-        <form onSubmit={this.handleSubmit}>
-          <label>Name</label>
-          <input onChange={this.handleNormalFieldChange} type="text" placeholder="Name" name="name" value={this.state.fields.name}/>
-          <label>Category</label>
-          <input onChange={this.handleNormalFieldChange} type="text" placeholder="Category" name="category" value={this.state.fields.category}/>
-          <label>Description</label>
-          <input onChange={this.handleNormalFieldChange} type="text" placeholder="Description" name="description" value={this.state.fields.description}/>
-          <br></br>
-          <button type="Submit">Submit</button>
-        </form>
+        <div className="project-form">
+          <form onSubmit={this.handleSubmit} autoComplete="off" className="form-boi">
+            <label>Name</label>
+            <input onChange={this.handleNormalFieldChange} type="text" name="name" value={this.state.fields.name}/>
+            <label>Category</label>
+            <input onChange={this.handleNormalFieldChange} type="text" name="category" value={this.state.fields.category}/>
+            <label>Description</label>
+            <input onChange={this.handleNormalFieldChange} type="text" name="description" value={this.state.fields.description}/>
+            <br></br>
+            <div className="container-project-submit-btn">
+              <button type="Submit" className="submit-project-button">Submit</button>
+            </div>
+            <div className="container-dashboard-btn">
+              <button onClick={this.returnToDashBoard} type="button" className="go-to-dashboard-button">DASHBOARD</button>
+            </div>
+          </form>
+        </div>
       )
     }
   }
@@ -93,10 +112,7 @@ class CreateProject extends Component {
   render(){
     return(
       <div className="create-project-page">
-        <div className="project-form">
-          <h2>Create a Project</h2>
-            {this.renderTasksOrNah()}
-        </div>
+        {this.renderTasksOrNah()}
       </div>
     )
   }
@@ -117,4 +133,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProject)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateProject))
